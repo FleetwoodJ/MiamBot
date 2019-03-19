@@ -30,8 +30,6 @@ namespace MiamBot {
 
             await _client.StartAsync();
 
-            
-
             _client.Ready += Client_Ready;
             _client.Log += Client_Log;
 
