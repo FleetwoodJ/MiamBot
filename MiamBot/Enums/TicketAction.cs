@@ -5,8 +5,9 @@ using System.Text;
 namespace MiamBot.Enums
 {
     public enum TicketAction {
-        Add,
-        Remove,
+        New,
         View,
+        List,
+        Remove,
     }
 }

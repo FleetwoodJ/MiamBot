@@ -6,6 +6,7 @@ using Discord.WebSocket;
 using System.Reflection;
 using System.Threading.Tasks;
 using Discord;
+using MiamBot.Enums;
 
 namespace MiamBot {
     public class CommandHandler {
@@ -37,15 +38,31 @@ namespace MiamBot {
                     Console.WriteLine(result.ErrorReason);
                 }
 
-                if(result.Error == CommandError.ParseFailed) {
-                    if(context.Message.ToString().Contains("ticket") && !context.Message.ToString().Contains("add") && !context.Message.ToString().Contains("remove") && !context.Message.ToString().Contains("view")) {
+                if (result.Error == CommandError.ParseFailed) {
+                    if(context.Message.ToString().Contains("ticket") && !context.Message.ToString().Contains("new") && !context.Message.ToString().Contains("remove") && !context.Message.ToString().Contains("view")) {
+
+                        if(context.Message.ToString().Length < 2)
+                        {
+                            Console.WriteLine("Too short!");
+                        }
+
                         EmbedBuilder Embed = new EmbedBuilder();
                         Embed.WithColor(122, 40, 200);
 
                         Embed.WithTitle("Invalid Argument");
 
-                        Embed.WithDescription
-                            (
+                        Embed.WithDescription("Valid arguments: " + getTicketActions());
+
+                        await context.Channel.SendMessageAsync(context.User.Mention, false, Embed.Build());
+                    }
+                } else if (result.Error == CommandError.BadArgCount) {
+                    if(context.Message.ToString().Contains("ticket")) {
+
+                        EmbedBuilder Embed = new EmbedBuilder();
+                        Embed.WithColor(122, 40, 200);
+
+                        Embed.WithTitle("Not enough arguments!");
+                        Embed.WithDescription (
                                 "\n **Ticket Commands**" + "\n" +
                                 "-ticket new <text to include> | Creates a new Ticket for staff to view" + "\n" +
                                 "-ticket list | See your currently open ticket requests, or cancel them**" + "\n" +
@@ -56,6 +73,17 @@ namespace MiamBot {
                     }
                 }
             }
+        }
+
+        private string getTicketActions() {
+
+            List<String> _validActions = new List<String>();
+
+            foreach (TicketAction action in Enum.GetValues(typeof(TicketAction)))  {
+                _validActions.Add(action.ToString().ToLower());
+            }
+
+            return String.Join(", ", _validActions);
         }
     }
 }
