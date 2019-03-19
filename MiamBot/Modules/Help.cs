@@ -13,9 +13,9 @@ namespace MiamiBot.Modules {
 
             EmbedBuilder Embed = new EmbedBuilder();
             Embed.WithColor(122, 40, 200);
-            Embed.WithDescription("\n" + "**-ticket new <text to include> | Creates a new Ticket for staff to view" + "\n" + "-ticket list | See your currently open ticket requests, or cancel them**");
+            Embed.WithDescription("\n" + "**Ticket Commands**" + "\n" + "**-ticket new <text to include> | Creates a new Ticket for staff to view" + "\n" + "-ticket list | See your currently open ticket requests, or cancel them**");
 
-            await Context.Channel.SendMessageAsync(Context.User.Mention + " Ticket-Bot Help Commands", false, Embed.Build());
+            await Context.Channel.SendMessageAsync(Context.User.Mention + " How to use Miam-Bot", false, Embed.Build());
         }
     }
 }
